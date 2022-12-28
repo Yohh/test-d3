@@ -1,10 +1,18 @@
-import React, { useEffect, useState } from "react";
-import logo from "./logo.svg";
+import { useEffect, useState } from "react";
 import "./App.scss";
 import { getData } from "./service/apiRequest";
 
+interface Temp {
+  min: number;
+  max: number;
+}
+
+interface Day {
+  temp: Temp;
+}
+
 interface Data {
-  daily: [];
+  daily: Day[];
   lat: number;
   lon: number;
   timezone: string;
@@ -18,9 +26,11 @@ function App() {
     getData(setData);
   }, []);
 
-  console.log("data: ", data);
+  console.log("data: ", data?.daily);
 
-  return <div className="App">hello</div>;
+  return (
+    <div className="App">{`tomorrow min: ${data?.daily[1].temp.min}°C, max: ${data?.daily[0].temp.max}°C`}</div>
+  );
 }
 
 export default App;
