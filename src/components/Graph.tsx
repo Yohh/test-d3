@@ -69,8 +69,8 @@ export const Graph = () => {
 
       const d: any = data.daily;
 
-      graph.append("path").attr("class", "temp_max").attr("d", maxTemp(d));
-      graph.append("path").attr("class", "temp_min").attr("d", minTemp(d));
+      graph.append("path").attr("class", "temp max").attr("d", maxTemp(d));
+      graph.append("path").attr("class", "temp min").attr("d", minTemp(d));
     }
   }, data?.daily);
 
