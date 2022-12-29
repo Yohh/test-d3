@@ -1,0 +1,13 @@
+.temp {
+  &_max {
+    fill: none;
+    stroke-width: 4px;
+    stroke: red;
+  }
+
+  &_min {
+    fill: none;
+    stroke-width: 4px;
+    stroke: blue;
+  }
+}

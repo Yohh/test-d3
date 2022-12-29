@@ -4,6 +4,8 @@ export interface Temp {
 }
 
 export interface Day {
+  date: Date | null;
+  dt: number;
   temp: Temp;
 }
 
