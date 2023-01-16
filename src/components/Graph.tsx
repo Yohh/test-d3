@@ -16,8 +16,28 @@ export const Graph = () => {
 
   const ref = useD3((svg: any) => {
     if (data) {
-      const date: Date = new Date(data?.daily[0].dt * 1000);
-      console.log(date);
+      const parseDate = d3.timeParse("%d-%b-%y");
+      const months = [
+        "Jan",
+        "Feb",
+        "Mar",
+        "Apr",
+        "May",
+        "Jun",
+        "Jul",
+        "Aug",
+        "Sep",
+        "Oct",
+        "Nov",
+        "Dec",
+      ];
+      data.daily.forEach((d: Day) => {
+        const date: Date = new Date(d.dt * 1000);
+        const actualDate: string = `${date.getDate()}-${
+          months[date.getMonth()]
+        }-${date.getFullYear().toString().slice(2)}`;
+        d.date = parseDate(actualDate);
+      });
 
       const margin = { top: 20, right: 30, bottom: 30, left: 40 };
       const height = 600;
@@ -35,19 +55,22 @@ export const Graph = () => {
       const groupY = graph.append("g");
 
       const x = d3
-        .scaleLinear()
+        .scaleTime()
         .domain([
-          d3.min(data.daily, (d: any) => d.dt),
-          d3.max(data.daily, (d: any) => d.dt),
+          d3.min(data.daily, (d: any) => d.date),
+          d3.max(data.daily, (d: any) => d.date),
         ])
         .range([0, width]);
 
       const y = d3
         .scaleLinear()
-        .domain([0, d3.max(data.daily, (d: any) => d.temp.max)])
+        .domain([
+          d3.min(data.daily, (d: any) => d.temp.min - 1),
+          d3.max(data.daily, (d: any) => d.temp.max + 1),
+        ])
         .range([height, 0]);
 
-      const axeY = d3.axisLeft(y).ticks(15);
+      const axeY = d3.axisLeft(y).ticks(20);
       groupY.call(axeY).style("font-size", "13px");
 
       const axeX = d3.axisBottom(x).ticks(7);
@@ -59,12 +82,12 @@ export const Graph = () => {
 
       const maxTemp = d3
         .line()
-        .x((d: any) => x(d.dt))
+        .x((d: any) => x(d.date))
         .y((d: any) => y(d.temp.max));
 
       const minTemp = d3
         .line()
-        .x((d: any) => x(d.dt))
+        .x((d: any) => x(d.date))
         .y((d: any) => y(d.temp.min));
 
       const d: any = data.daily;
