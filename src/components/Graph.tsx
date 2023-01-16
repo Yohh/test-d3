@@ -32,10 +32,11 @@ export const Graph = () => {
         "Dec",
       ];
       data.daily.forEach((d: Day) => {
-        const date: Date = new Date(d.dt * 1000);
-        const actualDate: string = `${date.getDate()}-${
-          months[date.getMonth()]
-        }-${date.getFullYear().toString().slice(2)}`;
+        const date = new Date(d.dt * 1000);
+        const actualDate = `${date.getDate()}-${months[date.getMonth()]}-${date
+          .getFullYear()
+          .toString()
+          .slice(2)}`;
         d.date = parseDate(actualDate);
       });
 
@@ -93,10 +94,10 @@ export const Graph = () => {
         .x((d: any) => x(d.date))
         .y((d: any) => y(d.temp.min));
 
-      const d: any = data.daily;
+      const day: any = data.daily;
 
-      graph.append("path").attr("class", "temp max").attr("d", maxTemp(d));
-      graph.append("path").attr("class", "temp min").attr("d", minTemp(d));
+      graph.append("path").attr("class", "temp max").attr("d", maxTemp(day));
+      graph.append("path").attr("class", "temp min").attr("d", minTemp(day));
     }
   }, data?.daily);
 
