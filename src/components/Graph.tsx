@@ -75,8 +75,6 @@ export const Graph = () => {
         Math.abs(data.daily[0].temp.min + 1) +
         Math.abs(data.daily[0].temp.max + 1);
 
-      console.log(axeYSize);
-
       const axeY = d3.axisLeft(y).ticks(axeYSize);
       groupY.call(axeY).style("font-size", "13px");
 
