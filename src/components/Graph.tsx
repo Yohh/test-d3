@@ -66,18 +66,21 @@ export const Graph = () => {
       const y = d3
         .scaleLinear()
         .domain([
-          d3.min(data.daily, (d: any) => d.temp.min),
-          d3.max(data.daily, (d: any) => d.temp.max),
+          d3.min(data.daily, (d: any) => d.temp.min - 1),
+          d3.max(data.daily, (d: any) => d.temp.max + 1),
         ])
         .range([height, 0]);
 
       const axeYSize =
-        Math.abs(data.daily[0].temp.min) + Math.abs(data.daily[0].temp.max);
+        Math.abs(data.daily[0].temp.min + 1) +
+        Math.abs(data.daily[0].temp.max + 1);
+
+      console.log(axeYSize);
 
       const axeY = d3.axisLeft(y).ticks(axeYSize);
       groupY.call(axeY).style("font-size", "13px");
 
-      const axeX = d3.axisBottom(x).ticks(7);
+      const axeX = d3.axisBottom(x).ticks(8);
       groupX.call(axeX).style("font-size", "14px");
       groupX
         .selectAll("text")
